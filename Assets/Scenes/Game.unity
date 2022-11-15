@@ -998,7 +998,7 @@ Transform:
   - {fileID: 276742042}
   - {fileID: 27820613}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &803186669
 GameObject:
@@ -1063,7 +1063,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1332998834}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -1304,7 +1304,7 @@ RectTransform:
   m_Children:
   - {fileID: 1332998834}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1446,18 +1446,23 @@ MonoBehaviour:
   spawnRedEnemies: 1
   redEnemySpawnDelayMin: 0.5
   redEnemySpawnDelayMax: 1
+  redEnemyPointMin: 0
   spawnPurpleEnemies: 1
   purpleEnemySpawnDelayMin: 3
   purpleEnemySpawnDelayMax: 5
+  purpleEnemyPointMin: 50
   spawnOrangeEnemies: 1
   orangeEnemySpawnDelayMin: 3
   orangeEnemySpawnDelayMax: 5
+  orangeEnemyPointMin: 150
   spawnCyanEnemies: 1
   cyanEnemySpawnDelayMin: 3
   cyanEnemySpawnDelayMax: 5
+  cyanEnemyPointMin: 200
   spawnPinkEnemies: 1
   pinkEnemySpawnDelayMin: 3
   pinkEnemySpawnDelayMax: 5
+  pinkEnemyPointMin: 300
   spawnPowerups: 1
   powerupSpawnDelayMin: 10
   powerupSpawnDelayMax: 20
@@ -1810,7 +1815,7 @@ Transform:
   - {fileID: 1404581742}
   - {fileID: 1805477579}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1165916511
 MonoBehaviour:
@@ -1835,8 +1840,6 @@ MonoBehaviour:
   homingBulletPrefab: {fileID: 2705154749347822427, guid: dc84820bd857616449821015287964b7, type: 3}
   shotType: 0
   kills: 0
-  points: 0
-  scoreText: {fileID: 805529609}
   arrow: {fileID: 1926719906}
   arrowAnchor: {fileID: 1805477579}
   playerTrail: {fileID: 1404581743}
@@ -1893,6 +1896,52 @@ PolygonCollider2D:
       - {x: 0.050000004, y: -0.13359377}
       - {x: 0.20000002, y: 0}
       - {x: 0.050000004, y: 0.13359377}
+--- !u!1 &1246188652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1246188653}
+  - component: {fileID: 1246188654}
+  m_Layer: 0
+  m_Name: Points Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1246188653
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246188652}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1246188654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246188652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac0243f69fb25174298b6de42a07d06b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points: 0
+  scoreText: {fileID: 0}
 --- !u!1 &1332998833
 GameObject:
   m_ObjectHideFlags: 0
@@ -1921,8 +1970,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1993427071}
   - {fileID: 805529607}
+  - {fileID: 1993427071}
   m_Father: {fileID: 905288784}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2311,7 +2360,7 @@ Transform:
   - {fileID: 1358243628}
   - {fileID: 1857580046}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1653600926
 GameObject:
@@ -2599,7 +2648,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1332998834}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

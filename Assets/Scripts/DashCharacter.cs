@@ -2,23 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class DashCharacter : MonoBehaviour
 {
 
-    Player player;
     Image image;
+    PointsManager pointsManager;
 
     void Start() {
         image = GetComponent<Image>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        pointsManager = GameObject.Find("Points Manager").GetComponent<PointsManager>();
     }
 
     void Update() {
-        if (player.points < 0)
+        if (pointsManager.points < 0)
         {
             image.color = Color.white;
-            transform.localPosition = new Vector3(0 - player.scoreText.text.Length * 26, transform.localPosition.y, 0);
+            transform.localPosition = new Vector3(0 - pointsManager.scoreText.text.Length * 26, transform.localPosition.y, 0);
         } else
         {
             image.color = Color.clear;

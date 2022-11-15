@@ -26,10 +26,7 @@ public class Player : MonoBehaviour
     public ShotType shotType = ShotType.Long;
 
     public int kills = 0;
-    public float points = 0;
 
-    public TMP_Text scoreText;
-    
     private Color backgroundColor;
 
     [SerializeField] Transform arrow;
@@ -39,13 +36,17 @@ public class Player : MonoBehaviour
 
     Rigidbody2D playerBody;
     AudioManager audioManager;
+    PointsManager pointsManager;
     Camera cam;
 
     void Start() {
         cam = Camera.main;
         backgroundColor = cam.backgroundColor;
         audioManager = GameObject.Find("Game Controller").GetComponent<AudioManager>();
+        pointsManager = GameObject.Find("Points Manager").GetComponent<PointsManager>();
         playerBody = GetComponent<Rigidbody2D>();
+
+        pointsManager.ResetPoints();
     }
 
     void Update() {
@@ -71,13 +72,7 @@ public class Player : MonoBehaviour
 
             playerBody.velocity = (arrow.position - transform.position).normalized * moveSpeed;
 
-            if (shotType == ShotType.Long)
-            {
-                shootForce = 30;
-                GameObject bullet = Instantiate(bulletPrefab, arrow.position, arrowAnchor.rotation);
-                Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
-                bulletBody.AddRelativeForce(Vector2.up * shootForce, ForceMode2D.Impulse);
-            } else if (shotType == ShotType.Triple) {
+            if (shotType == ShotType.Triple) {
                 shootForce = 30;
                 for (int i = -1; i < 2; i++)
                 {
@@ -91,12 +86,19 @@ public class Player : MonoBehaviour
                 GameObject bullet = Instantiate(bounceBulletPrefab, arrow.position, arrowAnchor.rotation);
                 Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
                 bulletBody.AddRelativeForce(Vector2.up * shootForce, ForceMode2D.Impulse);
-            } else if (shotType == ShotType.Homing) {
+            } else
+            {
+                shootForce = 30;
+                GameObject bullet = Instantiate(bulletPrefab, arrow.position, arrowAnchor.rotation);
+                Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
+                bulletBody.AddRelativeForce(Vector2.up * shootForce, ForceMode2D.Impulse);
+            }
+            /* else if (shotType == ShotType.Homing) {
                 shootForce = 10;
                 GameObject bullet = Instantiate(homingBulletPrefab, arrow.position, arrowAnchor.rotation);
                 Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
                 bulletBody.AddRelativeForce(Vector2.up * shootForce, ForceMode2D.Impulse);
-            }
+            }*/
         }
     }
 
@@ -106,9 +108,8 @@ public class Player : MonoBehaviour
 
     public void AddKill(float pointsIncrement, bool trailAdd = true) {
         kills++;
-        points += pointsIncrement;
+        pointsManager.AddPoint(pointsIncrement);
         if (trailAdd) playerTrail.time += trailIncrement;
-        scoreText.text = points.ToString();
     }
 
     void OnTriggerEnter2D(Collider2D collider) {

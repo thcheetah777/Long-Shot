@@ -20,24 +20,28 @@ public class Spawner : MonoBehaviour
     public bool spawnPurpleEnemies = true;
     public float purpleEnemySpawnDelayMin = 5;
     public float purpleEnemySpawnDelayMax = 10;
+    public float purpleEnemyPointMin = 10;
 
     [Space]
 
     public bool spawnOrangeEnemies = true;
     public float orangeEnemySpawnDelayMin = 5;
     public float orangeEnemySpawnDelayMax = 10;
+    public float orangeEnemyPointMin = 10;
 
     [Space]
 
     public bool spawnCyanEnemies = true;
     public float cyanEnemySpawnDelayMin = 5;
     public float cyanEnemySpawnDelayMax = 10;
+    public float cyanEnemyPointMin = 10;
 
     [Space]
 
     public bool spawnPinkEnemies = true;
     public float pinkEnemySpawnDelayMin = 5;
     public float pinkEnemySpawnDelayMax = 10;
+    public float pinkEnemyPointMin = 10;
 
     [Space]
 
@@ -62,9 +66,11 @@ public class Spawner : MonoBehaviour
     public GameObject badStuffPrefab;
 
     Player player;
+    PointsManager pointsManager;
 
     void Start() {
         player = GameObject.Find("Player").GetComponent<Player>();
+        pointsManager = GameObject.Find("Points Manager").GetComponent<PointsManager>();
 
         StartCoroutine(SpawnRedEnemies());
         StartCoroutine(SpawnPurpleEnemies());
@@ -89,7 +95,7 @@ public class Spawner : MonoBehaviour
         while (true) {
             float randomDelay = Random.Range(purpleEnemySpawnDelayMin, purpleEnemySpawnDelayMax * spawnMultiplier);
             yield return new WaitForSeconds(randomDelay);
-            if (spawnPurpleEnemies && player.points > 50) StartCoroutine(Spawn(purpleEnemyPrefab));
+            if (spawnPurpleEnemies && pointsManager.points >= purpleEnemyPointMin) StartCoroutine(Spawn(purpleEnemyPrefab));
         }
     }
 
@@ -98,7 +104,7 @@ public class Spawner : MonoBehaviour
         while (true) {
             float randomDelay = Random.Range(orangeEnemySpawnDelayMin, orangeEnemySpawnDelayMax * spawnMultiplier);
             yield return new WaitForSeconds(randomDelay);
-            if (spawnOrangeEnemies && player.points > 100) StartCoroutine(Spawn(orangeEnemyPrefab));
+            if (spawnOrangeEnemies && pointsManager.points >= purpleEnemyPointMin) StartCoroutine(Spawn(orangeEnemyPrefab));
         }
     }
 
@@ -107,7 +113,7 @@ public class Spawner : MonoBehaviour
         while (true) {
             float randomDelay = Random.Range(cyanEnemySpawnDelayMin, cyanEnemySpawnDelayMax * spawnMultiplier);
             yield return new WaitForSeconds(randomDelay);
-            if (spawnCyanEnemies && player.points > 150) StartCoroutine(Spawn(cyanEnemyPrefab));
+            if (spawnCyanEnemies && pointsManager.points >= cyanEnemyPointMin) StartCoroutine(Spawn(cyanEnemyPrefab));
         }
     }
 
@@ -116,7 +122,7 @@ public class Spawner : MonoBehaviour
         while (true) {
             float randomDelay = Random.Range(pinkEnemySpawnDelayMin, pinkEnemySpawnDelayMax * spawnMultiplier);
             yield return new WaitForSeconds(randomDelay);
-            if (spawnPinkEnemies && player.points >= 200) StartCoroutine(Spawn(pinkEnemyPrefab));
+            if (spawnPinkEnemies && pointsManager.points >= pinkEnemyPointMin) StartCoroutine(Spawn(pinkEnemyPrefab));
         }
     }
 
