@@ -8,10 +8,10 @@ public class Leaderboard : MonoBehaviour
 {
 
     public bool loginDone = false;
-    public int leaderboardID = 8877;
+    public int leaderboardID = 8887;
     public string playerID;
 
-    void Awake() {
+    void Start() {
         // GameObject pointsManagerFound = GameObject.Find("Leaderboard");
         // if (pointsManagerFound != gameObject)
         // {

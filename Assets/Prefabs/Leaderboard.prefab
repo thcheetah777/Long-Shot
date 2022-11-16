@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loginDone: 0
-  leaderboardID: 8877
+  leaderboardID: 8887
   playerID: 
 --- !u!114 &4377847006834109290
 MonoBehaviour:

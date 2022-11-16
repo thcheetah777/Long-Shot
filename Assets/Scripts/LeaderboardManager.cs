@@ -12,7 +12,7 @@ public class LeaderboardManager : MonoBehaviour
 
     Leaderboard leaderboard;
 
-    void Awake() {
+    void Start() {
         leaderboard = GameObject.Find("Leaderboard").GetComponent<Leaderboard>();
         StartCoroutine(leaderboard.ChangeInputFieldToName(inputField));
         StartCoroutine(leaderboard.FetchHighscores(scores));
