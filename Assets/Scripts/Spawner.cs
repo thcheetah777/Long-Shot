@@ -45,6 +45,13 @@ public class Spawner : MonoBehaviour
 
     [Space]
 
+    public bool spawnYellowEnemies = true;
+    public float yellowEnemySpawnDelayMin = 5;
+    public float yellowEnemySpawnDelayMax = 10;
+    public float yellowEnemyPointMin = 10;
+
+    [Space]
+
     public bool spawnPowerups = true;
     public float powerupSpawnDelayMin = 5;
     public float powerupSpawnDelayMax = 10;
@@ -62,6 +69,7 @@ public class Spawner : MonoBehaviour
     public GameObject orangeEnemyPrefab;
     public GameObject cyanEnemyPrefab;
     public GameObject pinkEnemyPrefab;
+    public GameObject yellowEnemyPrefab;
     public GameObject powerupDonut;
     public GameObject badStuffPrefab;
 
@@ -77,6 +85,7 @@ public class Spawner : MonoBehaviour
         StartCoroutine(SpawnOrangeEnemies());
         StartCoroutine(SpawnCyanEnemies());
         StartCoroutine(SpawnPinkEnemies());
+        StartCoroutine(SpawnYellowEnemies());
         StartCoroutine(SpawnPowerups());
         StartCoroutine(SpawnBadStuff());
     }
@@ -123,6 +132,15 @@ public class Spawner : MonoBehaviour
             float randomDelay = Random.Range(pinkEnemySpawnDelayMin, pinkEnemySpawnDelayMax * spawnMultiplier);
             yield return new WaitForSeconds(randomDelay);
             if (spawnPinkEnemies && pointsManager.points >= pinkEnemyPointMin) StartCoroutine(Spawn(pinkEnemyPrefab));
+        }
+    }
+
+    private IEnumerator SpawnYellowEnemies() {
+        yield return new WaitForSeconds(startDelay);
+        while (true) {
+            float randomDelay = Random.Range(yellowEnemySpawnDelayMin, yellowEnemySpawnDelayMax * spawnMultiplier);
+            yield return new WaitForSeconds(randomDelay);
+            if (spawnYellowEnemies && pointsManager.points >= yellowEnemyPointMin) StartCoroutine(Spawn(yellowEnemyPrefab));
         }
     }
 

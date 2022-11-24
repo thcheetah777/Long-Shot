@@ -6,12 +6,17 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
 
-    static public void DieScene() {
-        SceneManager.LoadScene("End");
+    public Animator transition;
+    public float transitionTime = 1;
+
+    public void LoadScene(string sceneName) {
+        StartCoroutine(LoadSceneCoroutine(sceneName));
     }
 
-    static public void PlayGame() {
-        SceneManager.LoadScene("Game");
+    public IEnumerator LoadSceneCoroutine(string sceneName) {
+        transition.SetTrigger("Leave");
+        yield return new WaitForSeconds(transitionTime);
+        SceneManager.LoadScene(sceneName);
     }
 
 }

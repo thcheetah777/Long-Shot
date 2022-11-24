@@ -10,15 +10,17 @@ public class AudioManager : MonoBehaviour
     public AudioClip die;
     public AudioClip powerup;
 
-
     AudioSource audioSource;
+    AudioSource backgroundMusic;
 
     void Start() {
         audioSource = GetComponent<AudioSource>();
+        backgroundMusic = GameObject.Find("Background Music").GetComponent<AudioSource>();
+        if (!SettingsManager.GetSettings("musicEnabled")) backgroundMusic.volume = 0;
     }
 
     public void PlaySound(AudioClip sound) {
-        audioSource.PlayOneShot(sound);
+        if (SettingsManager.GetSettings("sfxEnabled")) audioSource.PlayOneShot(sound);
     }
 
 }

@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
 
     public float points = 10;
     public float spawnSpeedChange = 0.01f;
+    public bool colliderDelay = true;
 
     Effects effects;
     ObjectShake cameraShake;
@@ -23,7 +24,8 @@ public class Enemy : MonoBehaviour
         cameraShake = Camera.main.GetComponent<ObjectShake>();
         enemyCollider = GetComponent<Collider2D>();
         enemyCollider.enabled = false;
-        StartCoroutine(EnableCollider());
+        if (colliderDelay) StartCoroutine(EnableCollider());
+        else enemyCollider.enabled = true;
     }
 
     void OnTriggerEnter2D(Collider2D collider) {

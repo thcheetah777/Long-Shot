@@ -2,28 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 
 public enum ShotType
 {
     Long,
     Triple,
     Bounce,
-    Homing
+    Squiggle,
+    Curve,
+    Wide,
+    Snake,
+    Sniper
 }
 
 public class Player : MonoBehaviour
 {
 
+    public bool invincible = false;
     public float moveSpeed = 15;
     public float shootForce = 30;
     public float trailIncrement = 0.05f;
     public float slowmoTime = 0.3f;
     public float tripleShotMargin = 10;
+    public ShotType shotType = ShotType.Long;
+    public UnityEvent onDie;
+
     public GameObject bulletPrefab;
     public GameObject smallBulletPrefab;
     public GameObject bounceBulletPrefab;
-    public GameObject homingBulletPrefab;
-    public ShotType shotType = ShotType.Long;
+    public GameObject squiggleBulletPrefab;
+    public GameObject curveBulletPrefab;
+    public GameObject wideBulletPrefab;
+    public GameObject snakeBulletPrefab;
+    public GameObject sniperBulletPrefab;
 
     public int kills = 0;
 
@@ -52,19 +64,23 @@ public class Player : MonoBehaviour
     void Update() {
         cam.backgroundColor = Color.Lerp(cam.backgroundColor, backgroundColor, 0.05f);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
+            float slowmoTimeBefore = slowmoTime;
+            if (shotType == ShotType.Sniper) slowmoTime = 0.1f;
+            else slowmoTime = slowmoTimeBefore;
+
             Time.timeScale = slowmoTime;
             Time.fixedDeltaTime = slowmoTime * 0.02f;
         }
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0))
         {
             backgroundMusicSource.pitch = Mathf.Lerp(backgroundMusicSource.pitch, 0.5f, 0.05f);
         } else
         {
             backgroundMusicSource.pitch = Mathf.Lerp(backgroundMusicSource.pitch, 1, 0.05f);
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0))
         {
             Time.timeScale = 1f;
             Time.fixedDeltaTime = 0.02f;
@@ -73,7 +89,7 @@ public class Player : MonoBehaviour
             playerBody.velocity = (arrow.position - transform.position).normalized * moveSpeed;
 
             if (shotType == ShotType.Triple) {
-                shootForce = 30;
+                shootForce = 40;
                 for (int i = -1; i < 2; i++)
                 {
                     Quaternion rotation = arrowAnchor.rotation * Quaternion.Euler(0, 0, i * tripleShotMargin);
@@ -82,28 +98,39 @@ public class Player : MonoBehaviour
                     bulletBody.AddRelativeForce(Vector2.up * shootForce, ForceMode2D.Impulse);
                 }
             } else if (shotType == ShotType.Bounce) {
-                shootForce = 15;
+                shootForce = 30;
                 GameObject bullet = Instantiate(bounceBulletPrefab, arrow.position, arrowAnchor.rotation);
                 Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
                 bulletBody.AddRelativeForce(Vector2.up * shootForce, ForceMode2D.Impulse);
-            } else
-            {
-                shootForce = 30;
+            } else if (shotType == ShotType.Squiggle) {
+                Instantiate(squiggleBulletPrefab, arrow.position, arrowAnchor.rotation);
+            } else if (shotType == ShotType.Curve) {
+                Instantiate(curveBulletPrefab, arrow.position, arrowAnchor.rotation);
+            } else if (shotType == ShotType.Wide) {
+                shootForce = 25;
+                GameObject bullet = Instantiate(wideBulletPrefab, arrow.position, arrowAnchor.rotation);
+                Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
+                bulletBody.AddRelativeForce(Vector2.up * shootForce, ForceMode2D.Impulse);
+            } else if (shotType == ShotType.Snake) {
+                Instantiate(snakeBulletPrefab, arrow.position, arrowAnchor.rotation);
+            } else if (shotType == ShotType.Sniper) {
+                shootForce = 80;
+                GameObject bullet = Instantiate(sniperBulletPrefab, arrow.position, arrowAnchor.rotation);
+                Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
+                bulletBody.AddRelativeForce(Vector2.up * shootForce, ForceMode2D.Impulse);
+            }
+
+            else {
+                shootForce = 50;
                 GameObject bullet = Instantiate(bulletPrefab, arrow.position, arrowAnchor.rotation);
                 Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
                 bulletBody.AddRelativeForce(Vector2.up * shootForce, ForceMode2D.Impulse);
             }
-            /* else if (shotType == ShotType.Homing) {
-                shootForce = 10;
-                GameObject bullet = Instantiate(homingBulletPrefab, arrow.position, arrowAnchor.rotation);
-                Rigidbody2D bulletBody = bullet.GetComponent<Rigidbody2D>();
-                bulletBody.AddRelativeForce(Vector2.up * shootForce, ForceMode2D.Impulse);
-            }*/
         }
     }
 
     public void Die() {
-        SceneLoader.DieScene();
+        if (!invincible) onDie.Invoke();
     }
 
     public void AddKill(float pointsIncrement, bool trailAdd = true) {

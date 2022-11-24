@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 
 public class EndManager : MonoBehaviour
 {
 
     public TMP_Text finalScoreText;
     public TMP_Text highScoreText;
+    public UnityEvent onPlayAgain;
 
     PointsManager pointsManager;
     Leaderboard leaderboard;
@@ -30,9 +32,9 @@ public class EndManager : MonoBehaviour
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) && leaderboard.loginDone)
         {
-            SceneLoader.PlayGame();
+            onPlayAgain.Invoke();
         }
     }
 
