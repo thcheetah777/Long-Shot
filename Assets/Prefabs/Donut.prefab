@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
+  powerupNameText: {fileID: 4889115647549356076, guid: 4d2bd7275f37dbc4d8a2f94962e0f007, type: 3}
 --- !u!1 &1309433232521450060
 GameObject:
   m_ObjectHideFlags: 0

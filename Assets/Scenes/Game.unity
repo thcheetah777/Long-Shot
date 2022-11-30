@@ -1508,7 +1508,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shoot: {fileID: 8300000, guid: a811edb9855b5544fa902a839c880b78, type: 3}
   destroy: {fileID: 8300000, guid: 777f2f57cb2817e42bb502e82f7788e6, type: 3}
-  die: {fileID: 0}
+  die: {fileID: 8300000, guid: 9e2bc4116b41824489493255a5bed58a, type: 3}
   powerup: {fileID: 8300000, guid: a208aca17a9ffb145a373f7d549de7d0, type: 3}
 --- !u!82 &1089306723
 AudioSource:
@@ -1635,7 +1635,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 50a6fcd49509ff04f8063a1c4436f0d4, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1838,11 +1838,28 @@ MonoBehaviour:
   invincible: 0
   moveSpeed: 12
   shootForce: 50
+  canShoot: 1
   trailIncrement: 0.1
   slowmoTime: 0.3
   tripleShotMargin: 10
   shotType: 0
+  dieDelay: 0.5
   onDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1164511840}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Stop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDieDelayed:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1234474945}

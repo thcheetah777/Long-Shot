@@ -1,19 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Powerup : MonoBehaviour
 {
 
     public float speed = 2;
+    public GameObject powerupNameText;
 
     private ShotType randomShot;
 
     Rigidbody2D powerupBody;
     AudioManager audioManager;
+    Camera cam;
+    Transform canvas;
 
     void Start() {
         powerupBody = GetComponent<Rigidbody2D>();
+        cam = Camera.main;
+        canvas = GameObject.Find("Canvas").transform;
         audioManager = GameObject.Find("Game Controller").GetComponent<AudioManager>();
         Vector2 direction = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
         Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90);
@@ -29,6 +35,12 @@ public class Powerup : MonoBehaviour
                 if (randomShot != collider.GetComponent<Player>().shotType) break;
             }
             collider.GetComponent<Player>().shotType = randomShot;
+
+            GameObject powerupNameGameObject = Instantiate(powerupNameText, cam.WorldToScreenPoint(transform.position), Quaternion.identity, canvas);
+            TMP_Text powerupName = powerupNameGameObject.GetComponent<TMP_Text>();
+            powerupName.text = randomShot.ToString() + " Shot";
+            Destroy(powerupNameGameObject, 1);
+
             Destroy(gameObject);
         }
     }

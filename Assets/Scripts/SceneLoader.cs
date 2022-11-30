@@ -15,7 +15,7 @@ public class SceneLoader : MonoBehaviour
 
     public IEnumerator LoadSceneCoroutine(string sceneName) {
         transition.SetTrigger("Leave");
-        yield return new WaitForSeconds(transitionTime);
+        yield return new WaitForSecondsRealtime(transitionTime);
         SceneManager.LoadScene(sceneName);
     }
 
